@@ -7,17 +7,9 @@
 echo "323 - Desktop to External Drive"
 echo "583 - External Drive to Desktop"
 
-#Transfer files to and from portable usb drive
-echo "462 - USB drive to Desktop"
-echo "637 - Desktop to USB drive"
-
-#Transfer files to and from phone
-echo "835 - Phone to Desktop"
-echo "259 - Desktop to Phone"
-
-#Transfer new photos from phone to desktop
+#Transfer new phone files from phone to desktop
 #To find working directory of an mtp device, go to /run/user/1000/gvfs/ directory and list contents
-echo "749 - Phone Photos to Desktop Photos"
+echo "749 - Phone Files to Desktop Files"
 
 read -p "Choose Option Number: " user_option
 #echo $user_option
@@ -28,10 +20,10 @@ then
     #Have the user confirm option by pressing enter
     read -p "Syncing files from DESKTOP to EXTERNAL DRIVE - Enter to continue" temp_input
     #Test to check if the directory is accessible
-    if test -d '/path/to/external/drive'
+    if test -d '/path/to/external/drive/'
     then
     #If the directory is accessible, it will sync the files
-    rsync -iav --no-perms --delete --stats --progress /desktop/path/ /path/to/external/drive/
+    rsync -iavn --no-perms --delete --stats --progress /desktop/path/ /path/to/external/drive/
     else
     #If the directory is not accessible, it will not sync the files
     echo "Double check volume is mounted"
@@ -40,59 +32,19 @@ then
 elif [ 583 -eq $user_option ]
 then
     read -p "Syncing files from EXTERNAL DRIVE to DESKTOP - Enter to continue" temp_input
-    if test -d '/path/to/external/drive'
+    if test -d '/path/to/external/drive/'
     then
-    rsync -iav --no-perms --delete --stats --progress /path/to/external/drive/ /desktop/path/
+    rsync -iavn --no-perms --delete --stats --progress /path/to/external/drive/ /desktop/path/
     else
     echo "Double check voulume is mounted"
     fi
 
-elif [ 462 -eq $user_option ]
-then
-    read -p "Syncing files from USB DRIVE to DESKTOP - Enter to continue" temp_input
-    if test -d '/path/to/usb'
-    then
-    rsync -iav --no-perms --delete --stats --progress /path/to/usb/  /desktop/path/
-    else
-    echo "Double check volume is mlounted"
-    fi
-
-elif [ 637 -eq $user_option ]
-then
-    read -p "Syncing files from DESKTOP to USB DRIVE - Enter to continue" temp_input
-    if test -d '/path/to/usb'
-    then
-    rsync -iav --no-perms --delete --stats --progress /desktop/path/ /path/to/usb/
-    else
-    echo "Double check volume is mounted"
-    fi
-
-elif [ 835 -eq $user_option ]
-then
-    read -p "Syncing files from PHONE to DESKTOP - Enter to continue" temp_input
-    if test -d '/run/user/1000/gvfs/path/to/phone'
-    then
-    rsync -iav --no-perms --delete --stats --progress /run/user/1000/gvfs/path/to/phone/ /path/to/desktop/
-    else
-    echo "Double check volume is mounted"
-    fi
-
-elif [ 259 -eq $user_option ]
-then
-    read -p "Syncing files from DESKTOP to PHONE - Enter to continue" temp_input
-    if test -d '/run/user/1000/gvfs/path/to/phone'
-    then
-    rsync -iav --no-perms --delete --stats --progress /path/to/desktop/ /run/user/1000/gvfs/path/to/phone/
-    else
-    echo "Double check volume is mounted"
-    fi
-    
 elif [ 749 -eq $user_option ]
 then
-    read -p "Syncing files from PHONE PHOTOS to DEKSTOP PHONE PHOTOS BACKUP - Enter to continue" temp_input
-    if test -d '/run/user/1000/gvfs/path/to/phone'
+    read -p "Syncing files from PHONE FILES to DEKSTOP PHONE FILES - Enter to continue" temp_input
+    if test -d '/run/user/1000/gvfs/path/to/phone/'
     then
-    rsync -iav --no-perms --stats --progress /run/user/1000/gvfs/path/to/phone/ /path/to/desktop/
+    rsync -iavn --no-perms --stats --progress "/run/user/1000/gvfs/path/to/phone/" /desktop/path/
     else
     echo "Double check volume is mounted"
     fi
